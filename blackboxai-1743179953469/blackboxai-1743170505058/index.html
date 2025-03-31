@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Wheel</title>
+    <style>
+        .rigged-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .wheel-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transform: rotate(0deg);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .segment::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 25%;
+            top: 25%;
+            transform: rotate(30deg);
+            transform-origin: left bottom;
+            white-space: nowrap;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .pointer {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #e74c3c;
+            z-index: 10;
+        }
+        .winner-display {
+            position: absolute;
+            top: 20%;
+            left: calc(30% + 400px);
+            transform: translateY(-50%);
+            font-size: 60px;
+            text-align: center;
+            width: max-content;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .spin-btn {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .spin-btn:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+        .spin-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+        .spin-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="wheel-container">
+        <div class="wheel" id="wheel">
+            <!-- Segments will be added by JavaScript -->
+        </div>
+        <div class="pointer"></div>
+        <button id="spinBtn" class="spin-btn">SPIN</button>
+    </div>
+    <div class="winner-display" id="winnerDisplay">Winner: <span id="winnerName"></span></div>
+
+    <div id="spinHistory" style="position:absolute; right:20px; top:20px; background:rgba(255,255,255,0.8); padding:20px; border-radius:10px; width:200px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h3 style="margin-top:0;">Last 5 Spins:</h3>
+        <div id="historyList"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
