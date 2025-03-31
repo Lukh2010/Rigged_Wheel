@@ -1,2 +1,3 @@
-# blackboxai-1743412369560
-Built by https://www.blackbox.ai
+# Rigged Lucky Wheel
+
+You can rig this wheel and have fun with your friends. 
