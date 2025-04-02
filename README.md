@@ -14,9 +14,9 @@ npm install
 Windows:
 
 https://nodejs.org
-´´´sh
+```sh
 npm install
-´´´
+```
 
 # Start the server
 
