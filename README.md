@@ -4,12 +4,16 @@ You can rig this wheel and have fun with your friends.
 
 # Installation (Fedora)
 
-'sudo dnf install nodejs'
-'npm install'
+```sh
+sudo dnf install nodejs
+npm install
+```
 
 # Start the server
 
-'node server.js'
+```sh
+node server.js
+```
 
 # Usage
 
