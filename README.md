@@ -14,6 +14,9 @@ npm install
 Windows:
 
 https://nodejs.org
+
+&
+
 ```sh
 npm install
 ```
