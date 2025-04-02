@@ -39,6 +39,7 @@ app.post('/rig', (req, res) => {
     const { outcome } = req.body;
     if (outcome === 'dark' || outcome === 'light') {
         nextOutcome = outcome;
+        console.log("Next outcome set to:", nextOutcome); // Log outcome
         res.json({ success: true, message: `Next spin will be ${outcome.toUpperCase()}` });
     } else {
         res.status(400).json({ success: false, message: 'Invalid outcome' });
