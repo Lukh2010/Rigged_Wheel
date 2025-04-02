@@ -2,11 +2,12 @@
 
 You can rig this wheel and have fun with your friends. 
 
-# Installation
+# Installation npm
 
 ```sh
 npm install
 ```
+# Installation Node.js
 
 Fedora:
 
