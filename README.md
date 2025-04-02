@@ -4,22 +4,19 @@ You can rig this wheel and have fun with your friends.
 
 # Installation
 
+```sh
+npm install
+```
+
 Fedora:
 
 ```sh
 sudo dnf install nodejs
-npm install
 ```
 
 Windows:
 
 https://nodejs.org
-
-&
-
-```sh
-npm install
-```
 
 # Start the server
 
