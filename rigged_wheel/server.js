@@ -83,7 +83,22 @@ app.get('/logs', (req, res) => {
 
 // Start server
 const port = 8000;
-app.listen(port, () => {
+const host = '0.0.0.0'; // Listen on all network interfaces
+app.listen(port, host, () => {
     console.log(`Server running at http://localhost:${port}`);
+    console.log(`Accessible on your network at http://${getLocalIpAddress()}:${port}`);
     console.log(`Control panel at http://localhost:${port}/control`);
 });
+
+// Helper function to get local IP address
+function getLocalIpAddress() {
+    const interfaces = require('os').networkInterfaces();
+    for (const name of Object.keys(interfaces)) {
+        for (const iface of interfaces[name]) {
+            if (iface.family === 'IPv4' && !iface.internal) {
+                return iface.address;
+            }
+        }
+    }
+    return 'localhost';
+}
