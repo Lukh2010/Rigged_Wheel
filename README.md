@@ -7,7 +7,7 @@ You can rig this wheel and have fun with your friends. Perfect for parties and g
 ### Windows - Easy Installer:
 ```bash
 # Just run the installer script!
-install_and_update.bat
+rigged_wheel.bat
 ```
 
 ### Linux/Mac - Docker:
