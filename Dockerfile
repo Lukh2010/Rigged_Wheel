@@ -5,13 +5,13 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy package files
-COPY rigged_wheel/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy application code
-COPY rigged_wheel/ ./
+COPY . ./
 
 # Expose port
 EXPOSE 8000

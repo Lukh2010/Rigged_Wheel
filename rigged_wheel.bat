@@ -1,9 +1,9 @@
 @echo off
 chcp 65001 >nul
-title Rigged Wheel Installer & Updater
+title Rigged Wheel - Auto Installer & Launcher
 
 echo ========================================
-echo    Rigged Wheel - Docker Installer
+echo    Rigged Wheel - Auto Installer
 echo ========================================
 echo.
 
@@ -11,17 +11,17 @@ echo.
 echo Checking if Docker is installed...
 docker --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Docker is not installed!
+    echo ERROR: Docker is not installed!
+    echo.
     echo Please install Docker Desktop from:
     echo https://www.docker.com/products/docker-desktop/
     echo.
-    echo After installation, restart this script.
+    echo After installation, run this script again.
     pause
     exit /b 1
 )
 
-echo Docker is installed!
-echo Docker Version:
+echo ✅ Docker is installed!
 docker --version
 echo.
 
@@ -29,117 +29,80 @@ echo.
 echo Checking Docker Compose...
 docker-compose --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Docker Compose is not available!
+    echo ERROR: Docker Compose not found!
     echo Please make sure Docker Desktop includes Docker Compose.
     pause
     exit /b 1
 )
 
-echo Docker Compose Version:
+echo ✅ Docker Compose ready!
 docker-compose --version
 echo.
 
-:menu
-echo Choose an option:
-echo 1. Install and Start Rigged Wheel
-echo 2. Update and Restart Rigged Wheel  
-echo 3. Stop Rigged Wheel
-echo 4. Exit
-echo.
-set /p choice="Enter your choice (1-4): "
-
-echo.
-
-if "%choice%"=="1" goto install
-if "%choice%"=="2" goto update
-if "%choice%"=="3" goto stop
-if "%choice%"=="4" goto exit
-
-echo Invalid choice! Please try again.
-echo.
-goto menu
-
-:install
-echo Installing and starting Rigged Wheel...
-echo.
-
-if exist rigged_wheel (
-    echo Found existing installation.
-    echo Removing old files...
-    rmdir /s /q rigged_wheel
-)
+:cleanup
+echo Cleaning up temporary files...
 
 if exist node_modules (
-    echo Removing node_modules...
-    rmdir /s /q node_modules
-)
-
-if exist package-lock.json (
-    echo Removing package-lock.json...
-    del package-lock.json
+    echo Removing old node_modules...
+    rmdir /s /q node_modules 2>nul
 )
 
 if exist spin_log.txt (
-    echo Removing spin_log.txt...
-    del spin_log.txt
+    echo Removing spin log...
+    del spin_log.txt 2>nul
 )
 
-echo Pulling latest version...
-git pull origin main
-
-echo Building and starting Docker containers...
-docker-compose up -d --build
-
 echo.
-echo ✅ Installation complete!
-echo.
-echo Access your Rigged Wheel at:
-echo - Main Wheel: http://localhost:8000
-echo - Control Panel: http://localhost:8000/control
-echo.
-echo To stop the application, run this script again and choose option 3.
-echo.
-pause
-goto exit
 
 :update
-echo Updating Rigged Wheel...
-echo.
-
-echo Stopping existing containers...
-docker-compose down
-
-echo Pulling latest version...
+echo Updating to latest version...
 git pull origin main
 
-echo Removing old build cache...
-docker system prune -f
+echo.
 
-echo Building and starting updated version...
+:build
+echo Building and starting Rigged Wheel...
+echo This may take a few minutes...
+echo.
+
 docker-compose up -d --build
 
-echo.
-echo ✅ Update complete!
-echo.
-pause
-goto exit
+if %errorlevel% neq 0 (
+    echo.
+    echo ❌ Build failed! Check Docker Desktop for errors.
+    pause
+    exit /b 1
+)
 
-:stop
-echo Stopping Rigged Wheel...
 echo.
+echo ✅ Rigged Wheel is now running!
+echo.
+echo 🌐 Access your wheel at:
+echo    http://localhost:8000
+echo.
+echo 🎮 Control panel:
+echo    http://localhost:8000/control
+echo.
+echo Press Ctrl+C to stop the application and exit.
+echo.
+
+:wait_loop
+echo Type 'exit' to stop the application and close...
+echo.
+set /p user_input="">nul
+
+if /i "%user_input%"=="exit" goto stop_app
+goto wait_loop
+
+:stop_app
+echo.
+echo Stopping Rigged Wheel...
 docker-compose down
 
 echo Cleaning up...
 docker system prune -f
 
 echo.
-echo ✅ Application stopped!
-echo.
-pause
-goto exit
-
-:exit
-echo Thank you for using Rigged Wheel!
-echo.
-pause
+echo ✅ Application stopped. Goodbye!
+timeout /t 2 /nobreak >nul
 exit /b 0

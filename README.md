@@ -4,9 +4,9 @@ You can rig this wheel and have fun with your friends. Perfect for parties and g
 
 ## 🚀 Quick Start (Recommended)
 
-### Windows - Easy Installer:
+### Windows - One-Click Installer:
 ```bash
-# Just run the installer script!
+# Just run the installer script - it does everything automatically!
 rigged_wheel.bat
 ```
 
