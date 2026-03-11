@@ -1,17 +1,17 @@
-# Use official Node.js runtime
-FROM node:18-alpine
+# Use official Node.js runtime (LTS version)
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files from rigged_wheel folder
+COPY rigged_wheel/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy application code
-COPY . ./
+COPY rigged_wheel/ ./
 
 # Expose port
 EXPOSE 8000

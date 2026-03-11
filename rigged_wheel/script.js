@@ -1,10 +1,26 @@
 const wheel = document.getElementById('wheel');
 const spinBtn = document.getElementById('spinBtn');
 const riggedIndicator = document.getElementById('riggedIndicator');
+const themeToggle = document.getElementById('themeToggle');
+const soundToggle = document.getElementById('soundToggle');
 
 // Sound effects
 const spinSound = new Audio('https://cdn.freesound.org/previews/270/270404_5123851-lq.mp3');
 const winSound = new Audio('https://cdn.freesound.org/previews/270/270402_5123851-lq.mp3');
+
+// Settings
+let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+let darkTheme = localStorage.getItem('darkTheme') === 'true';
+
+// Initialize settings
+if (darkTheme) {
+    document.body.classList.add('dark-theme');
+    themeToggle.textContent = '☀️';
+} else {
+    themeToggle.textContent = '🌙';
+}
+
+soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
 
 // Create 6 segments (3 Dark, 3 Light)
 const segments = [
@@ -108,8 +124,7 @@ spinBtn.addEventListener('click', async () => {
 
     wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
 
-    spinSound.currentTime = 0;
-    spinSound.play();
+    playSound(spinSound);
 
     const fastSpins = 20;
     const fastDuration = 3000;
@@ -177,8 +192,7 @@ spinBtn.addEventListener('click', async () => {
                 winnerDisplayEl.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
                 winnerDisplayEl.style.color = '#ffffff';
 
-                winSound.currentTime = 0;
-                winSound.play();
+                playSound(winSound);
             
                 confetti({
                     particleCount: 100,
@@ -231,6 +245,31 @@ function loadHistory() {
             document.getElementById('historyList').innerHTML =
                 '<div style="color:#666; font-style:italic">Loading history...</div>';
         });
+}
+
+// Theme toggle
+themeToggle.addEventListener('click', () => {
+    darkTheme = !darkTheme;
+    document.body.classList.toggle('dark-theme', darkTheme);
+    themeToggle.textContent = darkTheme ? '☀️' : '🌙';
+    localStorage.setItem('darkTheme', darkTheme);
+});
+
+// Sound toggle
+soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+    localStorage.setItem('soundEnabled', soundEnabled);
+});
+
+// Play sound with settings check
+function playSound(sound) {
+    if (soundEnabled) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {
+            // Silent error for autoplay restrictions
+        });
+    }
 }
 
 loadHistory();
