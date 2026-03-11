@@ -1,8 +1,22 @@
-# Rigged Lucky Wheel
+# Rigged Lucky Wheel 🎡
 
-You can rig this wheel and have fun with your friends. 
+You can rig this wheel and have fun with your friends. Perfect for parties and games!
 
-## 🐳 Docker Installation (Recommended)
+## 🚀 Quick Start (Recommended)
+
+### Windows - Easy Installer:
+```bash
+# Just run the installer script!
+install_and_update.bat
+```
+
+### Linux/Mac - Docker:
+```bash
+# One command setup
+docker-compose up -d
+```
+
+## 🐳 Docker Installation 
 
 ### With Docker Compose (easiest):
 ```bash
@@ -15,35 +29,33 @@ docker build -t rigged-wheel .
 docker run -d -p 8000:8000 --name rigged-wheel rigged-wheel
 ```
 
-## 📦 Traditional Installation
+## 📦 Manual Installation
 
-### Install npm dependencies:
+### Node.js (Traditional):
 ```bash
 cd rigged_wheel
 npm install
+npm start
 ```
 
 ### Install Node.js:
-- Fedora: `sudo dnf install nodejs`
-- Windows: https://nodejs.org
-
-### Start the server:
-```bash
-node server.js
-```
+- **Windows**: Download from https://nodejs.org
+- **Fedora/RHEL**: `sudo dnf install nodejs`
+- **Ubuntu/Debian**: `sudo apt install nodejs npm`
+- **macOS**: `brew install node`
 
 ## 🎮 Usage
 
-- Main Wheel: http://localhost:8000
-- Control Panel: http://localhost:8000/control
-- Keyboard Shortcuts: Press 'N' for DARK, 'M' for LIGHT
+- **Main Wheel**: http://localhost:8000
+- **Control Panel**: http://localhost:8000/control
+- **Keyboard Shortcuts**: Press 'N' for DARK, 'M' for LIGHT
 
-## 🐳 Docker Commands
+## 🔧 Docker Commands
 ```bash
 # Start in background
 docker-compose up -d
 
-# Stop
+# Stop application
 docker-compose down
 
 # View logs
@@ -51,5 +63,34 @@ docker-compose logs
 
 # Restart
 docker-compose restart
+
+# Update to latest version
+docker-compose up -d --build
 ```
+
+## 🪟 Windows Installer Features
+
+The `install_and_update.bat` script provides:
+- ✅ Automatic Docker detection and installation guide
+- ✅ One-click installation and updates
+- ✅ Automatic cleanup of old files
+- ✅ Easy start/stop functionality
+- ✅ Git integration for automatic updates
+
+## 🌐 Network Access
+
+The application is also accessible on your local network:
+- http://[YOUR-IP]:8000
+- Check terminal output for your specific IP address
+
+## 🎯 Rigging Features
+- 100% consistent results when rigged
+- Control panel for remote rigging
+- Keyboard shortcuts for quick rigging
+- Spin history tracking
+- Beautiful animations and sound effects
+
+---
+
+**Pro Tip**: Use the control panel on your phone while the wheel is displayed on a big screen for the best experience!
 

@@ -1,0 +1,17 @@
+{
+  "name": "rigged-wheel",
+  "version": "1.0.0",
+  "description": "A rigged wheel game with Docker support",
+  "main": "rigged_wheel/server.js",
+  "scripts": {
+    "start": "cd rigged_wheel && npm start",
+    "dev": "cd rigged_wheel && npm run dev",
+    "test": "cd rigged_wheel && npm test"
+  },
+  "keywords": ["wheel", "game", "rigged", "docker"],
+  "author": "Lukh2010",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
