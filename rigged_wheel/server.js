@@ -31,7 +31,7 @@ app.get('/control', (req, res) => {
 // Get next outcome
 app.get('/next-outcome', (req, res) => {
     res.json({ outcome: nextOutcome });
-    nextOutcome = null; // Reset after sending
+    // Don't reset here - let the client handle resetting after spin
 });
 
 // Set next outcome (from control panel)
@@ -76,18 +76,8 @@ app.get('/logs', (req, res) => {
             .slice(0, 5)
             .map(line => line.trim());
         
-        const logs = lines.map(JSON.stringify);
-        res.json({logs: JSON.parse(`[${logs.join(',')}]`)});
+        res.json({logs: lines});
     });
-});
-
-// Start server
-const port = 8000;
-const host = '0.0.0.0'; // Listen on all network interfaces
-app.listen(port, host, () => {
-    console.log(`Server running at http://localhost:${port}`);
-    console.log(`Accessible on your network at http://${getLocalIpAddress()}:${port}`);
-    console.log(`Control panel at http://localhost:${port}/control`);
 });
 
 // Helper function to get local IP address
@@ -102,3 +92,12 @@ function getLocalIpAddress() {
     }
     return 'localhost';
 }
+
+// Start server
+const port = 8000;
+const host = '0.0.0.0'; // Listen on all network interfaces
+app.listen(port, host, () => {
+    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Accessible on your network at http://${getLocalIpAddress()}:${port}`);
+    console.log(`Control panel at http://localhost:${port}/control`);
+});

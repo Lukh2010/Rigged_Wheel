@@ -76,7 +76,7 @@
             .then(response => response.json())
             .then(data => {
                 const status = document.getElementById('status');
-                status.textContent = `Next spin will be: ${outcome.toUpperCase()}`;
+                status.textContent = `Rigged: ${outcome.toUpperCase()}`;
                 status.style.opacity = '1';
                 status.style.backgroundColor = outcome === 'dark' ? '#000' : '#fff';
                 status.style.color = outcome === 'dark' ? '#fff' : '#000';

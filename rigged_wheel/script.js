@@ -54,7 +54,10 @@ function startIdleAnimation() {
     animate();
 }
 
-startIdleAnimation();
+// Start idle animation after page load
+window.addEventListener('load', () => {
+    startIdleAnimation();
+});
 
 let spinHistory = [];
 
@@ -75,18 +78,10 @@ document.addEventListener('keydown', (e) => {
 
     if (e.key.toLowerCase() === 'n') {
         nextOutcome = 'dark';
-        riggedIndicator.textContent = 'NEXT SPIN: DARK';
-        riggedIndicator.style.backgroundColor = '#000000';
-        riggedIndicator.style.color = '#ffffff';
-        riggedIndicator.style.opacity = '1';
-        setTimeout(() => { riggedIndicator.style.opacity = '0'; }, 2000);
+        // No indicator shown for keyboard shortcuts either
     } else if (e.key.toLowerCase() === 'm') {
         nextOutcome = 'light';
-        riggedIndicator.textContent = 'NEXT SPIN: LIGHT';
-        riggedIndicator.style.backgroundColor = '#ffffff';
-        riggedIndicator.style.color = '#000000';
-        riggedIndicator.style.opacity = '1';
-        setTimeout(() => { riggedIndicator.style.opacity = '0'; }, 2000);
+        // No indicator shown for keyboard shortcuts either
     }
 });
 
@@ -98,11 +93,7 @@ spinBtn.addEventListener('click', async () => {
         const data = await response.json();
         if (data.outcome) {
             nextOutcome = data.outcome;
-            riggedIndicator.textContent = `NEXT SPIN: ${data.outcome.toUpperCase()}`;
-            riggedIndicator.style.backgroundColor = data.outcome === 'dark' ? '#000000' : '#ffffff';
-            riggedIndicator.style.color = data.outcome === 'dark' ? '#ffffff' : '#000000';
-            riggedIndicator.style.opacity = '1';
-            setTimeout(() => { riggedIndicator.style.opacity = '0'; }, 2000);
+            // Don't show indicator for control panel rigging - only for keyboard shortcuts
         }
     } catch (error) {
         console.error('Error checking rigged outcome:', error);
@@ -136,45 +127,55 @@ spinBtn.addEventListener('click', async () => {
         if (progress < 1) {
             requestAnimationFrame(fastSpin);
         } else {
+            // Smooth transition to final position
+            wheel.style.transition = 'transform 2s cubic-bezier(0.1, 0.4, 0.2, 1)';
+            
             const segmentAngle = 360 / segments.length;
             let targetSegmentIndex;
 
             if (nextOutcome === 'dark') {
-                const darkIndices = segments.map((seg, i) => seg.text === 'DARK' ? i : -1).filter(i => i !== -1);
-                targetSegmentIndex = darkIndices[Math.floor(Math.random() * darkIndices.length)];
+                // Always land on the first DARK segment for consistent rigging
+                targetSegmentIndex = segments.findIndex(seg => seg.text === 'DARK');
             } else if (nextOutcome === 'light') {
-                const lightIndices = segments.map((seg, i) => seg.text === 'LIGHT' ? i : -1).filter(i => i !== -1);
-                targetSegmentIndex = lightIndices[Math.floor(Math.random() * lightIndices.length)];
+                // Always land on the first LIGHT segment for consistent rigging
+                targetSegmentIndex = segments.findIndex(seg => seg.text === 'LIGHT');
             } else {
                 targetSegmentIndex = Math.floor(Math.random() * segments.length);
             }
 
             const segmentOffset = segmentAngle / 2;
-            const targetRotation = 1440 + (segmentAngle * targetSegmentIndex) + segmentOffset;
+            // Calculate exact rotation to land the target segment at the top
+            // Use a fixed large rotation plus the target segment position
+            const baseRotation = 360 * 10; // 10 full rotations
+            const targetRotation = baseRotation + (segmentAngle * targetSegmentIndex) + segmentOffset;
 
-            wheel.style.transition = 'transform 2s cubic-bezier(0.1, 0.4, 0.2, 1)';
             wheel.style.transform = `rotate(${targetRotation}deg)`;
 
             setTimeout(() => {
-                const normalizedRotation = (360 - (targetRotation % 360)) % 360;
-                const winningIndex = Math.floor(normalizedRotation / segmentAngle);
+                // Calculate which segment is at the top (0 degrees)
+                const normalizedRotation = targetRotation % 360;
+                const segmentAngle = 360 / segments.length;
+                const winningIndex = Math.floor(normalizedRotation / segmentAngle) % segments.length;
                 const winner = segments[winningIndex];
 
                 const winnerText = winner.text;
+                
+                // Debug logging
+                console.log('Rigged outcome:', nextOutcome);
+                console.log('Target segment index:', targetSegmentIndex);
+                console.log('Target rotation:', targetRotation);
+                console.log('Normalized rotation:', normalizedRotation);
+                console.log('Winning index:', winningIndex);
+                console.log('Winner:', winnerText);
 
-                // Update UI with the correct winner and use appropriate colors
+                // Update UI with the correct winner
                 const winnerNameEl = document.getElementById('winnerName');
-                const winnerDisplayEl = document.getElementById('winnerDisplay');
                 winnerNameEl.textContent = winnerText;
-                if (winnerText === 'DARK') {
-                    // dark segment: white text on black background
-                    winnerNameEl.style.color = '#ffffff';
-                    winnerDisplayEl.style.backgroundColor = '#000000';
-                } else {
-                    // light segment: black text on white background
-                    winnerNameEl.style.color = '#000000';
-                    winnerDisplayEl.style.backgroundColor = '#ffffff';
-                }
+                
+                // Reset winner display styling to default
+                const winnerDisplayEl = document.getElementById('winnerDisplay');
+                winnerDisplayEl.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                winnerDisplayEl.style.color = '#ffffff';
 
                 winSound.currentTime = 0;
                 winSound.play();

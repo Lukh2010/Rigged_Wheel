@@ -1,9 +1,17 @@
 {
+  "name": "rigged-wheel",
+  "version": "1.0.0",
+  "description": "A rigged wheel game with control panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests defined\" && exit 0"
+  },
   "dependencies": {
     "express": "^4.21.2"
   },
-  "scripts": {
-    "test": "echo \"No tests defined\" && exit 0",
-    "start": "node server.js"
-  }
+  "keywords": ["wheel", "game", "rigged"],
+  "author": "",
+  "license": "MIT"
 }
