@@ -1,5 +1,5 @@
-# Use official Node.js runtime (LTS version)
-FROM node:20-alpine
+# Use official Node.js runtime (slim version for minimal vulnerabilities)
+FROM node:20-slim
 
 # Set working directory
 WORKDIR /app
