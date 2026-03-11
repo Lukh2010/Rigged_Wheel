@@ -1,5 +1,6 @@
 const wheel = document.getElementById('wheel');
 const spinBtn = document.getElementById('spinBtn');
+const riggedIndicator = document.getElementById('riggedIndicator');
 
 // Sound effects
 const spinSound = new Audio('https://cdn.freesound.org/previews/270/270404_5123851-lq.mp3');
@@ -158,15 +159,23 @@ spinBtn.addEventListener('click', async () => {
                 const normalizedRotation = (360 - (targetRotation % 360)) % 360;
                 const winningIndex = Math.floor(normalizedRotation / segmentAngle);
                 const winner = segments[winningIndex];
-                
-                // Set the winner text to the opposite of what was calculated
-                const winnerText = winner.text === "DARK" ? "LIGHT" : "DARK";
 
-                // Update UI with the correct winner (always black text on white background)
-                document.getElementById('winnerName').textContent = winnerText;
-                document.getElementById('winnerName').style.color = '#000000';
-                document.getElementById('winnerDisplay').style.backgroundColor = '#ffffff';
-            
+                const winnerText = winner.text;
+
+                // Update UI with the correct winner and use appropriate colors
+                const winnerNameEl = document.getElementById('winnerName');
+                const winnerDisplayEl = document.getElementById('winnerDisplay');
+                winnerNameEl.textContent = winnerText;
+                if (winnerText === 'DARK') {
+                    // dark segment: white text on black background
+                    winnerNameEl.style.color = '#ffffff';
+                    winnerDisplayEl.style.backgroundColor = '#000000';
+                } else {
+                    // light segment: black text on white background
+                    winnerNameEl.style.color = '#000000';
+                    winnerDisplayEl.style.backgroundColor = '#ffffff';
+                }
+
                 winSound.currentTime = 0;
                 winSound.play();
             

@@ -67,15 +67,16 @@
             z-index: 10;
         }
         .winner-display {
-            position: absolute;
-            top: 15%;
-            left: calc(20% + 400px);
-            transform: translateY(-50%);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 60px;
             text-align: center;
             width: max-content;
             padding: 20px;
             border-radius: 10px;
+            z-index: 1000;
         }
         .spin-btn {
             position: absolute;
@@ -111,6 +112,7 @@
         <div class="pointer"></div>
         <button id="spinBtn" class="spin-btn">SPIN</button>
     </div>
+    <div id="riggedIndicator" class="rigged-indicator"></div>
     <div class="winner-display" id="winnerDisplay">Winner: <span id="winnerName"></span></div>
 
     <div id="spinHistory" style="position:absolute; right:20px; top:20px; background:rgba(255,255,255,0.8); padding:20px; border-radius:10px; width:200px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">

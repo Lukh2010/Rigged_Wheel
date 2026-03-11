@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "express": "^4.21.2"
+  },
+  "scripts": {
+    "test": "echo \"No tests defined\" && exit 0",
+    "start": "node server.js"
   }
 }
