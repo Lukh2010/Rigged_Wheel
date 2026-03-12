@@ -1,6 +1,7 @@
 @echo off
 chcp 65001 >nul
 title Rigged Wheel - Auto Installer & Launcher
+cd /d "%~dp0"
 
 echo ========================================
 echo    Rigged Wheel - Auto Installer
